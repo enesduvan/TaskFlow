@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.enesduvan.taskflow.presentation.HomeScreen
 import com.enesduvan.taskflow.presentation.LoginScreen
 import com.enesduvan.taskflow.ui.theme.TaskFlowTheme
+import com.enesduvan.taskflow.viewmodel.HomeViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +36,10 @@ class MainActivity : ComponentActivity() {
                 }
 
                 composable (route = "home_screen") {
-                    HomeScreen(navController = navController)
+                    HomeScreen(
+                        viewModel = viewModel(),
+                        navController = rememberNavController()
+                    )
                 }
             }
             /*TaskFlowTheme {
