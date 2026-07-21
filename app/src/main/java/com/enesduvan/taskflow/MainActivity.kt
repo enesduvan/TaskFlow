@@ -16,35 +16,57 @@ import androidx.navigation.compose.NavHost
 //import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.enesduvan.taskflow.presentation.DetailsScreen
 import com.enesduvan.taskflow.presentation.HomeScreen
 import com.enesduvan.taskflow.presentation.LoginScreen
 import com.enesduvan.taskflow.ui.theme.TaskFlowTheme
 import com.enesduvan.taskflow.viewmodel.HomeViewModel
+import com.enesduvan.taskflow.viewmodel.TaskModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
             val navController = rememberNavController()
+            val homeViewModel: HomeViewModel = viewModel()
+
             NavHost(
                 navController = navController,
                 startDestination = "login_screen"
             ) {
-                composable(route = "login_screen") {
-                    LoginScreen(viewModel = viewModel(), navController = navController)
-                }
 
-                composable (route = "home_screen") {
-                    HomeScreen(
-                        viewModel = viewModel(),
-                        navController = rememberNavController()
+                composable("login_screen") {
+                    LoginScreen(
+                        navController = navController
                     )
                 }
+
+                composable("home_screen") {
+                    HomeScreen(
+                        viewModel = homeViewModel,
+                        navController = navController
+                    )
+                }
+
+                composable("details_screen/{taskId}") { backStackEntry ->
+
+                    val taskId = backStackEntry.arguments?.getString("taskId")
+
+                    val task = homeViewModel.taskList.find {
+                        it.Id == taskId
+                    }
+
+                    if (task != null) {
+                        DetailsScreen(
+                            task = task,
+                            viewModel = homeViewModel,
+                            navController = navController
+                        )
+                    }
+                }
             }
-            /*TaskFlowTheme {
-                    LoginScreen(navController = rememberNavController())
-            }*/
         }
     }
 }

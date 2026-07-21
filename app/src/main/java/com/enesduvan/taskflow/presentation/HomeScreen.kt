@@ -1,5 +1,6 @@
 package com.enesduvan.taskflow.presentation
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -58,7 +59,6 @@ import com.enesduvan.taskflow.viewmodel.TaskModel
 @Composable
 fun HomeScreen(viewModel: HomeViewModel, navController: NavController) {
     //statik görev daha sonra sonradan eklenebilir yapacaım
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = LoginBlack, // Scaffold'un ana arka plan rengi
@@ -108,14 +108,16 @@ fun HomeScreen(viewModel: HomeViewModel, navController: NavController) {
                 .padding(it).background(LoginBlack)
         ) {
             items(viewModel.taskList.size) { index ->
-                MyTaskCard(viewModel = viewModel, task = viewModel.taskList[index])
+                MyTaskCard(viewModel = viewModel, task = viewModel.taskList[index], navController = navController)
             }
         }
     }
 }
 @Composable
-fun MyTaskCard(viewModel: HomeViewModel,task: TaskModel) {
-    Card(
+fun MyTaskCard(viewModel: HomeViewModel,task: TaskModel, navController: NavController) {
+    Card(onClick = {
+        navController.navigate("details_screen/${task.Id}")
+    },
         // Kartın dışındaki boşluklar ve renk
         modifier = Modifier
             .fillMaxWidth()
@@ -128,7 +130,6 @@ fun MyTaskCard(viewModel: HomeViewModel,task: TaskModel) {
                 .padding(16.dp), // Kartın içindeki boşluk
             verticalAlignment = Alignment.Top // Checkbox'ı en üste hizalar
         ) {
-            // 1. ONAY KUTUSU (CHECKBOX)
             Checkbox(
                 checked = task.Checked,
                 colors = CheckboxDefaults.colors(
@@ -215,3 +216,5 @@ fun HomeScreenPreview() {
         HomeScreen(viewModel = viewModel(), navController = rememberNavController())
     }
 }
+
+

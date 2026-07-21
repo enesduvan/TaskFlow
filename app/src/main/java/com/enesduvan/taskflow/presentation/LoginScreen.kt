@@ -50,7 +50,7 @@ import com.enesduvan.taskflow.viewmodel.LoginViewModel
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = viewModel(),navController: NavController) {
     val snackbarHostState = remember { SnackbarHostState() }
-    // 2. DİNLEYİCİ: ViewModel'deki errorMessage her değiştiğinde burası uyanır
+
     LaunchedEffect(key1 = viewModel.errorMessage.value) {
         // Eğer hata mesajı boş değilse (yani gerçekten bir hata varsa)
         if (viewModel.errorMessage.value.isNotEmpty()) {

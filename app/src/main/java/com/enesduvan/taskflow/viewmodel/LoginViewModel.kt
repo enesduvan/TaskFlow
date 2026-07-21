@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 
 class LoginViewModel : ViewModel() {
     //şuanlık gerçek değil sahte giriş var
-    val TrueMail = "test@gmail.com"
+    val TrueMail = "test"
     val TruePassword = "123456"
     var emailState = mutableStateOf("")
     var passwordState = mutableStateOf("")
