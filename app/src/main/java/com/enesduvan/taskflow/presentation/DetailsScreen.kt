@@ -1,6 +1,5 @@
 package com.enesduvan.taskflow.presentation
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,7 +46,7 @@ import com.enesduvan.taskflow.ui.theme.LoginDarkPurple
 import com.enesduvan.taskflow.ui.theme.LoginPurple
 import com.enesduvan.taskflow.ui.theme.LoginWhite
 import com.enesduvan.taskflow.viewmodel.HomeViewModel
-import com.enesduvan.taskflow.viewmodel.TaskModel
+import com.enesduvan.taskflow.model.TaskModel
 
 @Composable
 fun DetailsScreen(task: TaskModel,viewModel: HomeViewModel, navController: NavController) {

@@ -1,6 +1,5 @@
 package com.enesduvan.taskflow.presentation
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,11 +15,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.CalendarMonth
-import androidx.compose.material3.AppBarMenuState
-import androidx.compose.material3.AppBarRow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -33,10 +29,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,12 +42,11 @@ import androidx.navigation.compose.rememberNavController
 import com.enesduvan.taskflow.ui.theme.HomeGray
 import com.enesduvan.taskflow.ui.theme.LoginBlack
 import com.enesduvan.taskflow.ui.theme.LoginDarkPurple
-import com.enesduvan.taskflow.ui.theme.LoginGray
 import com.enesduvan.taskflow.ui.theme.LoginPurple
 import com.enesduvan.taskflow.ui.theme.LoginWhite
 import com.enesduvan.taskflow.ui.theme.TaskFlowTheme
 import com.enesduvan.taskflow.viewmodel.HomeViewModel
-import com.enesduvan.taskflow.viewmodel.TaskModel
+import com.enesduvan.taskflow.model.TaskModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

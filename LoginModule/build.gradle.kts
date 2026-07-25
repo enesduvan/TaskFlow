@@ -1,11 +1,11 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.compose)
 
 }
 
 android {
-    namespace = "com.enesduvan.taskflow"
+    namespace = "com.enesduvan.loginmodule"
     compileSdk {
         version = release(37) {
             minorApiLevel = 1
@@ -13,29 +13,18 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.enesduvan.taskflow"
         minSdk = 29
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            optimization {
-                enable = false
-            }
-        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    buildFeatures {
+    buildFeatures{
         compose = true
     }
+
 }
 
 dependencies {
@@ -48,21 +37,13 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    implementation("androidx.navigation3:navigation3-runtime:1.2.0-alpha05")
-    implementation("androidx.navigation3:navigation3-ui:1.2.0-alpha05")
-    // Genişletilmiş Material İkon paketi
     implementation("androidx.compose.material:material-icons-extended:1.7.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3") // Sürüm numaran projenin ayarlarına göre farklılık gösterebilir
-    implementation(project(":LoginModule"))
-    implementation(platform("com.google.firebase:firebase-bom:34.16.0"))
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
     implementation("com.google.firebase:firebase-analytics")
-
+    implementation(platform("com.google.firebase:firebase-bom:34.16.0"))
 }

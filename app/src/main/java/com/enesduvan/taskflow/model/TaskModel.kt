@@ -1,7 +1,6 @@
-package com.enesduvan.taskflow.viewmodel
+package com.enesduvan.taskflow.model
 
 import androidx.compose.ui.graphics.Color
-import androidx.navigationevent.NavigationEventDispatcher
 
 data class TaskModel(val Id: String, val Task : String, val Description : String, val Date : String, val Priority : String ,val Checked : Boolean) {
     fun PriorityColor(): Color { //kendime not şuanlık priority renkleri statik olarak verdim daha sonra dinamik yapmak lazım mvvm power 😁

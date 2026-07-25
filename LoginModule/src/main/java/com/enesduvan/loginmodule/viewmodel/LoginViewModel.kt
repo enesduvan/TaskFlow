@@ -1,7 +1,6 @@
-package com.enesduvan.taskflow.viewmodel
+package com.enesduvan.loginmodule.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 
 class LoginViewModel : ViewModel() {

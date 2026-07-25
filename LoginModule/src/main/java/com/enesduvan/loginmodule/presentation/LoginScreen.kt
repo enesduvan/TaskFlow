@@ -1,4 +1,4 @@
-package com.enesduvan.taskflow.presentation
+package com.enesduvan.loginmodule.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,7 +26,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,13 +37,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.enesduvan.taskflow.ui.theme.LoginBlack
-import com.enesduvan.taskflow.ui.theme.LoginDarkPurple
-import com.enesduvan.taskflow.ui.theme.LoginGray
-import com.enesduvan.taskflow.ui.theme.LoginPurple
-import com.enesduvan.taskflow.ui.theme.LoginWhite
-import com.enesduvan.taskflow.ui.theme.TaskFlowTheme
-import com.enesduvan.taskflow.viewmodel.LoginViewModel
+import com.enesduvan.loginmodule.theme.LoginBlack
+import com.enesduvan.loginmodule.theme.LoginDarkPurple
+import com.enesduvan.loginmodule.theme.LoginGray
+import com.enesduvan.loginmodule.theme.LoginPurple
+import com.enesduvan.loginmodule.theme.LoginWhite
+import com.enesduvan.loginmodule.viewmodel.LoginViewModel
 
 
 @Composable
@@ -226,7 +224,5 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel(),navController: NavContro
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    TaskFlowTheme {
         LoginScreen(navController = rememberNavController())
-    }
 }
