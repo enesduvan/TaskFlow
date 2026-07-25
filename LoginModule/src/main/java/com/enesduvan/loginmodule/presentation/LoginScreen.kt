@@ -88,11 +88,11 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel(),navController: NavContro
             )
             Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = "Tekarar Hoşgeldiniz", color = LoginWhite, fontSize = 32.sp
+                text = "Welcome Back", color = LoginWhite, fontSize = 32.sp
             )
             Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                color = LoginWhite, text = "Görevleriniz için giriş yapın veya kaydolun"
+                color = LoginWhite, text = "Sign in to stay on top of your tasks", fontSize = 12.sp
             )
 
             Column(modifier = Modifier
@@ -202,7 +202,7 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel(),navController: NavContro
                         contentColor = LoginDarkPurple    // Butonun içindeki yazının rengi
                     )
                 ){
-                    Text(text = "Giriş Yap")
+                    Text(text = "Sign In")
                 }
 
             }
@@ -211,8 +211,12 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel(),navController: NavContro
                     .align(Alignment.CenterHorizontally)
                     .clickable {
                         // Kayıt olma işlemi
+                        navController.navigate("signup_screen"){
+                            popUpTo("login_screen") { inclusive = true }
+                        }
+
                     },
-                text = "Hesabınız yok mu? Kayıt Olun",
+                text = "Don't have an account? Sign Up",
                 color = LoginPurple,
                 fontSize = 12.sp
             )
