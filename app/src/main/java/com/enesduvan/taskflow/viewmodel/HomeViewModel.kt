@@ -15,7 +15,7 @@ class HomeViewModel : ViewModel() {
                     "Market Alışverişi",
                     "Süt, ekmek, yumurta ve meyve al",
                     "21.07.2026",
-                    "Yüksek",
+                    "High",
                     false
                 ),
                 TaskModel(
@@ -23,7 +23,7 @@ class HomeViewModel : ViewModel() {
                     "Ödevi Bitir",
                     "Kotlin HomeScreen ödevini tamamla",
                     "22.07.2026",
-                    "Orta",
+                    "Medium",
                     false
                 ),
                 TaskModel(
@@ -31,7 +31,7 @@ class HomeViewModel : ViewModel() {
                     "Spor Yap",
                     "45 dakika koşu ve 15 dakika esneme",
                     "21.07.2026",
-                    "Düşük",
+                    "Low",
                     true
                 ),
                 TaskModel(
@@ -39,7 +39,7 @@ class HomeViewModel : ViewModel() {
                     "Doktor Randevusu",
                     "Saat 14:30'da diş kontrolüne git",
                     "23.07.2026",
-                    "Yüksek",
+                    "High",
                     false
                 ),
                 TaskModel(
@@ -47,7 +47,7 @@ class HomeViewModel : ViewModel() {
                     "Kitap Oku",
                     "Kotlin TaskFlow uygulaması 1 saat kod yaz",
                     "24.07.2026",
-                    "Orta",
+                    "Medium",
                     true
                 ),
                 TaskModel(
@@ -55,7 +55,7 @@ class HomeViewModel : ViewModel() {
                     "İlaç İç",
                     "İlaçlarını almayı unutma",
                     "24.07.2026",
-                    "Yüksek",
+                    "High",
                     true
                 ),
                 TaskModel(
@@ -63,7 +63,7 @@ class HomeViewModel : ViewModel() {
                     "Uyu",
                     "Uyumayı unutma 😁",
                     "24.07.2026",
-                    "Orta",
+                    "Medium",
                     true
                 ),
                 TaskModel(
@@ -71,7 +71,7 @@ class HomeViewModel : ViewModel() {
                     "Flipping Master UI",
                     "Pazar yeri ekranı için Jetpack Compose bileşenlerini tasarla (V1).",
                     "22.07.2026",
-                    "Yüksek",
+                    "High",
                     false
                 ),
                 TaskModel(
@@ -79,7 +79,7 @@ class HomeViewModel : ViewModel() {
                     "Yapay Zeka Araştırması",
                     "Derin öğrenme dersi için LLM istatistiksel sapmaları hakkında notlar çıkar.",
                     "24.07.2026",
-                    "Orta",
+                    "Medium",
                     false
                 ),
                 TaskModel(
@@ -87,7 +87,7 @@ class HomeViewModel : ViewModel() {
                     "Halı Saha",
                     "7'ye 7 maç için Ali ve diğerlerini organize et, kadroyu kur.",
                     "25.07.2026",
-                    "Orta",
+                    "Medium",
                     false
                 ),
                 TaskModel(
@@ -95,7 +95,7 @@ class HomeViewModel : ViewModel() {
                     "Kafa Dağıtma",
                     "Cities: Skylines II'de yeni modları dene veya The 100'den birkaç bölüm izle.",
                     "21.07.2026",
-                    "Düşük",
+                    "Low",
                     false
                 )
 

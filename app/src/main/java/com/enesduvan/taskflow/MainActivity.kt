@@ -18,7 +18,9 @@ import com.enesduvan.taskflow.presentation.HomeScreen
 import com.enesduvan.loginmodule.presentation.LoginScreen
 import com.enesduvan.loginmodule.presentation.SignUpScreen
 import com.enesduvan.taskflow.presentation.AddTaskScreen
+import com.enesduvan.taskflow.roomDB.TaskViewModel
 import com.enesduvan.taskflow.ui.theme.TaskFlowTheme
+import com.enesduvan.taskflow.viewmodel.AddTaskViewModel
 import com.enesduvan.taskflow.viewmodel.HomeViewModel
 
 class MainActivity : ComponentActivity() {
@@ -29,6 +31,8 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
             val homeViewModel: HomeViewModel = viewModel()
+            val addTaskViewModel : AddTaskViewModel = viewModel()
+            val taskViewModel: TaskViewModel = viewModel()
 
             NavHost(
                 navController = navController,
@@ -42,7 +46,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("addtask_screen") {
                     AddTaskScreen(
-                        navController = navController
+                        navController = navController,
+                        viewModel = addTaskViewModel,
+                        taskViewModel = taskViewModel
                     )
                 }
                 composable("signup_screen") {

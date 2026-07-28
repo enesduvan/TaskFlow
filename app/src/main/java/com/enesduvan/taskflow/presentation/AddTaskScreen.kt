@@ -39,20 +39,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.enesduvan.taskflow.roomDB.Task
+import com.enesduvan.taskflow.roomDB.TaskViewModel
 import com.enesduvan.taskflow.ui.theme.HomeGray
 import com.enesduvan.taskflow.ui.theme.LoginBlack
+import com.enesduvan.taskflow.ui.theme.LoginDarkPurple
 import com.enesduvan.taskflow.ui.theme.LoginGray
 import com.enesduvan.taskflow.ui.theme.LoginPurple
 import com.enesduvan.taskflow.ui.theme.LoginWhite
 import com.enesduvan.taskflow.ui.theme.TaskFlowTheme
+import com.enesduvan.taskflow.viewmodel.AddTaskViewModel
 
 @Composable
-fun AddTaskScreen(navController: NavController) {
-    var taskName by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var selectedPriority by remember { mutableStateOf("Medium") }
+fun AddTaskScreen(navController: NavController, viewModel: AddTaskViewModel,taskViewModel: TaskViewModel) {
 
     Column(
         modifier = Modifier
@@ -64,7 +66,6 @@ fun AddTaskScreen(navController: NavController) {
         Column(
             modifier = Modifier.weight(1f)
         ) {
-            // Top Bar
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -76,30 +77,24 @@ fun AddTaskScreen(navController: NavController) {
                     Icon(
                         imageVector = Icons.Default.Close,
                         contentDescription = "Close",
-                        tint = LoginWhite
+                        tint = LoginPurple
                     )
                 }
-
                 Text(
                     text = "New Task",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LoginWhite
+                    color = LoginPurple
                 )
-
-                // Simetri için boş alan
                 Spacer(modifier = Modifier.size(48.dp))
             }
-
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Task Name Field
             TextField(
-                value = taskName,
-                onValueChange = { taskName = it },
+                value = viewModel.taskName.value,
+                onValueChange = { viewModel.onTaskNameChange(it) },
                 placeholder = {
                     Text(
-                        text = "Task Name",
+                        text = viewModel.taskName.value,
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Gray
@@ -119,10 +114,7 @@ fun AddTaskScreen(navController: NavController) {
                 ),
                 modifier = Modifier.fillMaxWidth()
             )
-
             Spacer(modifier = Modifier.height(24.dp))
-
-            // DESCRIPTION
             Text(
                 text = "DESCRIPTION",
                 fontSize = 12.sp,
@@ -132,9 +124,11 @@ fun AddTaskScreen(navController: NavController) {
             )
 
             TextField(
-                value = description,
-                onValueChange = { description = it },
-                placeholder = { Text(text = "Add details...", color = Color.Gray) },
+                value = viewModel.taskDescription.value,
+                onValueChange = { viewModel.onTaskDescriptionChange(it) },
+                placeholder = {
+                    Text(text = viewModel.taskDescription.value,
+                        color = Color.Gray) },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = LoginGray,
                     unfocusedContainerColor = LoginGray,
@@ -148,15 +142,11 @@ fun AddTaskScreen(navController: NavController) {
                     .fillMaxWidth()
                     .height(120.dp)
             )
-
             Spacer(modifier = Modifier.height(24.dp))
-
-            // DATE & TIME
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                // Date Box
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = "DATE",
@@ -187,8 +177,6 @@ fun AddTaskScreen(navController: NavController) {
                         )
                     }
                 }
-
-                // Time Box
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = "TIME",
@@ -220,10 +208,7 @@ fun AddTaskScreen(navController: NavController) {
                     }
                 }
             }
-
             Spacer(modifier = Modifier.height(24.dp))
-
-            // PRIORITY
             Text(
                 text = "PRIORITY",
                 fontSize = 12.sp,
@@ -231,13 +216,12 @@ fun AddTaskScreen(navController: NavController) {
                 color = Color.Gray,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
-
             Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 val priorities = listOf("Low", "Medium", "High")
                 priorities.forEach { priority ->
-                    val isSelected = selectedPriority == priority
+                    val isSelected = viewModel.selectedPriority.value == priority
                     val borderColor = if (isSelected) Color(0xFFD4A359) else Color(0xFF38353D)
                     val textColor = if (isSelected) Color(0xFFD4A359) else LoginWhite
 
@@ -252,7 +236,7 @@ fun AddTaskScreen(navController: NavController) {
                                 color = if (isSelected) Color(0xFF28231D) else Color.Transparent,
                                 shape = RoundedCornerShape(20.dp)
                             )
-                            .clickable { selectedPriority = priority }
+                            .clickable { viewModel.onSelectedPriorityChange(priority) }
                             .padding(horizontal = 20.dp, vertical = 8.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -265,10 +249,20 @@ fun AddTaskScreen(navController: NavController) {
                 }
             }
         }
-
-        // Create Task Button
         Button(
-            onClick = { /* Görev oluşturma aksiyonu */ },
+            onClick = {
+                taskViewModel.addTask(
+                    Task(
+                        Id = 0,
+                        Task = viewModel.taskName.value,
+                        Description = viewModel.taskDescription.value,
+                        Date = "Today",
+                        Priority = viewModel.selectedPriority.value,
+                        Checked = false)
+                )
+                navController.popBackStack()
+
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -303,6 +297,6 @@ fun AddTaskScreen(navController: NavController) {
 @Composable
 fun AddTaskScreenPreview() {
     TaskFlowTheme {
-        AddTaskScreen(navController = rememberNavController())
+        AddTaskScreen(navController = rememberNavController(), viewModel = viewModel(), taskViewModel = viewModel())
     }
 }

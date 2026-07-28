@@ -20,17 +20,17 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         readAllTaskOrderByPriority = repository.allTasksOrderedByPriority
         getTaskById = repository.getTaskById
     }
-    suspend fun addTask(task: Task) {
+    fun addTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) { //eşzamanlı parçacık işlem thread
             repository.addTask(task)
         }
     }
-    suspend fun updateTask(task: Task) {
+    fun updateTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateTask(task)
         }
     }
-    suspend fun deleteTask(task: Task) {
+    fun deleteTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteTask(task)
         }

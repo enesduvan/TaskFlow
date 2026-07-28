@@ -81,7 +81,7 @@ fun HomeScreen(viewModel: HomeViewModel, navController: NavController) {
         },
         floatingActionButton = {
             FloatingActionButton(modifier = Modifier.size(48.dp), onClick = {
-                // görev ekleme daha sonra eklenecek
+                navController.navigate("addtask_screen")
             },containerColor = LoginPurple, // Butonun arka plan rengi
                 contentColor = LoginDarkPurple   // İçindeki ikonun rengi
             ) {
