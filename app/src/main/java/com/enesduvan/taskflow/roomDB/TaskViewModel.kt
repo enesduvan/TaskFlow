@@ -4,6 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TaskViewModel(application: Application) : AndroidViewModel(application) {
     private val readAllTaskOrderByDate : LiveData<List<Task>>
@@ -18,13 +21,19 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
         getTaskById = repository.getTaskById
     }
     suspend fun addTask(task: Task) {
-        repository.addTask(task)
+        viewModelScope.launch(Dispatchers.IO) { //eşzamanlı parçacık işlem thread
+            repository.addTask(task)
+        }
     }
     suspend fun updateTask(task: Task) {
-        repository.updateTask(task)
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateTask(task)
+        }
     }
     suspend fun deleteTask(task: Task) {
-        repository.deleteTask(task)
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteTask(task)
+        }
     }
 
 }

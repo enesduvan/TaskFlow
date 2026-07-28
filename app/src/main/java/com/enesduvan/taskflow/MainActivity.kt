@@ -17,6 +17,7 @@ import com.enesduvan.taskflow.presentation.DetailsScreen
 import com.enesduvan.taskflow.presentation.HomeScreen
 import com.enesduvan.loginmodule.presentation.LoginScreen
 import com.enesduvan.loginmodule.presentation.SignUpScreen
+import com.enesduvan.taskflow.presentation.AddTaskScreen
 import com.enesduvan.taskflow.ui.theme.TaskFlowTheme
 import com.enesduvan.taskflow.viewmodel.HomeViewModel
 
@@ -36,6 +37,11 @@ class MainActivity : ComponentActivity() {
 
                 composable("login_screen") {
                     LoginScreen(
+                        navController = navController
+                    )
+                }
+                composable("addtask_screen") {
+                    AddTaskScreen(
                         navController = navController
                     )
                 }
