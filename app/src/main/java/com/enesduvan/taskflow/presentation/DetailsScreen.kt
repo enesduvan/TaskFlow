@@ -119,7 +119,9 @@ fun DetailsScreen(task: Task,
                     )
                 }
                 Row {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = {
+                        navController.navigate("update_task_screen/${task.Id}")
+                    }) {
                         Icon(
                             imageVector = Icons.Outlined.Edit,
                             contentDescription = "Edit",

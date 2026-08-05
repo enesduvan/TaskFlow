@@ -18,6 +18,7 @@ import com.enesduvan.taskflow.presentation.HomeScreen
 import com.enesduvan.loginmodule.presentation.LoginScreen
 import com.enesduvan.loginmodule.presentation.SignUpScreen
 import com.enesduvan.taskflow.presentation.AddTaskScreen
+import com.enesduvan.taskflow.presentation.UpdateTaskScreen
 import com.enesduvan.taskflow.roomDB.viewmodel.TaskViewModel
 import com.enesduvan.taskflow.ui.theme.TaskFlowTheme
 import com.enesduvan.taskflow.viewmodel.AddTaskViewModel
@@ -80,6 +81,22 @@ class MainActivity : ComponentActivity() {
                         DetailsScreen(
                             task = task,
                             viewModel = homeViewModel,
+                            taskViewModel = taskViewModel,
+                            navController = navController
+                        )
+                    }
+                }
+                composable("update_task_screen/{taskId}") { backStackEntry ->
+                    val taskId = backStackEntry.arguments?.getString("taskId")
+
+                    val task = homeViewModel.taskList.find {
+                        it.Id == taskId?.toInt()
+                    }
+
+                    if (task != null) {
+                        UpdateTaskScreen(
+                            task = task,
+                            viewModel = addTaskViewModel,
                             taskViewModel = taskViewModel,
                             navController = navController
                         )
