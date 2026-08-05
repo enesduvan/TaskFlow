@@ -1,113 +1,44 @@
 package com.enesduvan.taskflow.viewmodel
 
+import android.app.Application
 import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.ViewModel
-import com.enesduvan.taskflow.model.TaskModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
+import com.enesduvan.taskflow.roomDB.data.Task
+import com.enesduvan.taskflow.roomDB.data.TaskDataBase
+import com.enesduvan.taskflow.roomDB.data.TaskRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
-    val taskList = mutableStateListOf<TaskModel>()
-
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
+    val taskList = mutableStateListOf<Task>()
+    private val readAllTaskOrderByDate : LiveData<List<Task>>
+    private val readAllTaskOrderByPriority : LiveData<List<Task>>
+    private val getTaskById : LiveData<Task>
+    private val repository : TaskRepository
     init {
-        taskList.addAll(
-            listOf(
-                TaskModel(
-                    "1",
-                    "Market Alışverişi",
-                    "Süt, ekmek, yumurta ve meyve al",
-                    "21.07.2026",
-                    "High",
-                    false
-                ),
-                TaskModel(
-                    "2",
-                    "Ödevi Bitir",
-                    "Kotlin HomeScreen ödevini tamamla",
-                    "22.07.2026",
-                    "Medium",
-                    false
-                ),
-                TaskModel(
-                    "3",
-                    "Spor Yap",
-                    "45 dakika koşu ve 15 dakika esneme",
-                    "21.07.2026",
-                    "Low",
-                    true
-                ),
-                TaskModel(
-                    "4",
-                    "Doktor Randevusu",
-                    "Saat 14:30'da diş kontrolüne git",
-                    "23.07.2026",
-                    "High",
-                    false
-                ),
-                TaskModel(
-                    "5",
-                    "Kitap Oku",
-                    "Kotlin TaskFlow uygulaması 1 saat kod yaz",
-                    "24.07.2026",
-                    "Medium",
-                    true
-                ),
-                TaskModel(
-                    "6",
-                    "İlaç İç",
-                    "İlaçlarını almayı unutma",
-                    "24.07.2026",
-                    "High",
-                    true
-                ),
-                TaskModel(
-                    "7",
-                    "Uyu",
-                    "Uyumayı unutma 😁",
-                    "24.07.2026",
-                    "Medium",
-                    true
-                ),
-                TaskModel(
-                    "8",
-                    "Flipping Master UI",
-                    "Pazar yeri ekranı için Jetpack Compose bileşenlerini tasarla (V1).",
-                    "22.07.2026",
-                    "High",
-                    false
-                ),
-                TaskModel(
-                    "9",
-                    "Yapay Zeka Araştırması",
-                    "Derin öğrenme dersi için LLM istatistiksel sapmaları hakkında notlar çıkar.",
-                    "24.07.2026",
-                    "Medium",
-                    false
-                ),
-                TaskModel(
-                    "10",
-                    "Halı Saha",
-                    "7'ye 7 maç için Ali ve diğerlerini organize et, kadroyu kur.",
-                    "25.07.2026",
-                    "Medium",
-                    false
-                ),
-                TaskModel(
-                    "11",
-                    "Kafa Dağıtma",
-                    "Cities: Skylines II'de yeni modları dene veya The 100'den birkaç bölüm izle.",
-                    "21.07.2026",
-                    "Low",
-                    false
-                )
-
-            )
-        )
-    }
-
-
-    fun onCheckedChange(task: TaskModel, isChecked: Boolean) {
-        val index = taskList.indexOf(task)
-        if (index != -1) {
-            taskList[index] = taskList[index].copy(Checked = isChecked)
+        val taskDao = TaskDataBase.getDatabase(application).taskDao()
+        repository = TaskRepository(taskDao)
+        readAllTaskOrderByDate = repository.allTasksOrderedByDate
+        readAllTaskOrderByPriority = repository.allTasksOrderedByPriority
+        getTaskById = repository.getTaskById
+        readAllTaskOrderByDate.observeForever { list ->
+            taskList.clear()
+            taskList.addAll(list)
         }
     }
+    fun onCheckedChange(task: Task, isChecked: Boolean) {
+        val index = taskList.indexOf(task)
+        val checked : Task
+        if (index != -1) {
+            taskList[index] = taskList[index].copy(Checked = isChecked)
+            checked = taskList[index].copy(Checked = isChecked)
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.updateTask(checked)
+            }
+        }
+
+    }
+
 }

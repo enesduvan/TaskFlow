@@ -28,10 +28,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,11 +38,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.enesduvan.taskflow.roomDB.Task
-import com.enesduvan.taskflow.roomDB.TaskViewModel
+import com.enesduvan.taskflow.roomDB.data.Task
+import com.enesduvan.taskflow.roomDB.viewmodel.TaskViewModel
 import com.enesduvan.taskflow.ui.theme.HomeGray
 import com.enesduvan.taskflow.ui.theme.LoginBlack
-import com.enesduvan.taskflow.ui.theme.LoginDarkPurple
 import com.enesduvan.taskflow.ui.theme.LoginGray
 import com.enesduvan.taskflow.ui.theme.LoginPurple
 import com.enesduvan.taskflow.ui.theme.LoginWhite
@@ -94,7 +89,7 @@ fun AddTaskScreen(navController: NavController, viewModel: AddTaskViewModel,task
                 onValueChange = { viewModel.onTaskNameChange(it) },
                 placeholder = {
                     Text(
-                        text = viewModel.taskName.value,
+                        text = "Task Name",
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Gray
@@ -127,7 +122,7 @@ fun AddTaskScreen(navController: NavController, viewModel: AddTaskViewModel,task
                 value = viewModel.taskDescription.value,
                 onValueChange = { viewModel.onTaskDescriptionChange(it) },
                 placeholder = {
-                    Text(text = viewModel.taskDescription.value,
+                    Text(text = "Add details...",
                         color = Color.Gray) },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = LoginGray,
@@ -222,14 +217,13 @@ fun AddTaskScreen(navController: NavController, viewModel: AddTaskViewModel,task
                 val priorities = listOf("Low", "Medium", "High")
                 priorities.forEach { priority ->
                     val isSelected = viewModel.selectedPriority.value == priority
-                    val borderColor = if (isSelected) Color(0xFFD4A359) else Color(0xFF38353D)
-                    val textColor = if (isSelected) Color(0xFFD4A359) else LoginWhite
+
 
                     Box(
                         modifier = Modifier
                             .border(
                                 width = 1.dp,
-                                color = borderColor,
+                                color = PriorityColor(priority),
                                 shape = RoundedCornerShape(20.dp)
                             )
                             .background(
@@ -242,7 +236,7 @@ fun AddTaskScreen(navController: NavController, viewModel: AddTaskViewModel,task
                     ) {
                         Text(
                             text = priority,
-                            color = textColor,
+                            color = LoginWhite,
                             fontSize = 14.sp
                         )
                     }

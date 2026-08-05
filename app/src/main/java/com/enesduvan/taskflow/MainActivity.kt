@@ -18,10 +18,11 @@ import com.enesduvan.taskflow.presentation.HomeScreen
 import com.enesduvan.loginmodule.presentation.LoginScreen
 import com.enesduvan.loginmodule.presentation.SignUpScreen
 import com.enesduvan.taskflow.presentation.AddTaskScreen
-import com.enesduvan.taskflow.roomDB.TaskViewModel
+import com.enesduvan.taskflow.roomDB.viewmodel.TaskViewModel
 import com.enesduvan.taskflow.ui.theme.TaskFlowTheme
 import com.enesduvan.taskflow.viewmodel.AddTaskViewModel
 import com.enesduvan.taskflow.viewmodel.HomeViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +34,13 @@ class MainActivity : ComponentActivity() {
             val homeViewModel: HomeViewModel = viewModel()
             val addTaskViewModel : AddTaskViewModel = viewModel()
             val taskViewModel: TaskViewModel = viewModel()
+            val currentUser = FirebaseAuth.getInstance().currentUser
+
 
             NavHost(
                 navController = navController,
-                startDestination = "login_screen"
+                startDestination = if (currentUser != null) "home_screen" else "login_screen"
+                //giriş yapılıysa geç değilse login başlangıç olacak
             ) {
 
                 composable("login_screen") {
@@ -69,13 +73,14 @@ class MainActivity : ComponentActivity() {
                     val taskId = backStackEntry.arguments?.getString("taskId")
 
                     val task = homeViewModel.taskList.find {
-                        it.Id == taskId
+                        it.Id == taskId?.toInt()
                     }
 
                     if (task != null) {
                         DetailsScreen(
                             task = task,
                             viewModel = homeViewModel,
+                            taskViewModel = taskViewModel,
                             navController = navController
                         )
                     }

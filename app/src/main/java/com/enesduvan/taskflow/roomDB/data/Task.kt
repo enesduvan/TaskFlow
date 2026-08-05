@@ -1,4 +1,4 @@
-package com.enesduvan.taskflow.roomDB
+package com.enesduvan.taskflow.roomDB.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -20,15 +20,3 @@ data class Task(
     @ColumnInfo(name = "Checked")
     val Checked : Boolean
 )
-
-//dao veriler burada tutulur aslında sql varlık tablo ilişkisi gibi
-/* //normalizasyon kurallarına aykırı ama ne yapalım basit uygulamada gerk yok
-task_table
-
-id idendity primary key     - 1
-task string                 - alışveriş
-description string          - 2 adet ekmek al
-date string                 - bugun
-priority string             - yüksek
-checked boolean             - false
-*/

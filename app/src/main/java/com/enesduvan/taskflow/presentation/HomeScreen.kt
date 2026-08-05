@@ -25,12 +25,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,13 +52,27 @@ import com.enesduvan.taskflow.ui.theme.LoginPurple
 import com.enesduvan.taskflow.ui.theme.LoginWhite
 import com.enesduvan.taskflow.ui.theme.TaskFlowTheme
 import com.enesduvan.taskflow.viewmodel.HomeViewModel
-import com.enesduvan.taskflow.model.TaskModel
+import com.enesduvan.taskflow.roomDB.data.Task
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel, navController: NavController) {
-    //statik görev daha sonra sonradan eklenebilir yapacaım
+    //görev silindi snckbar
+    val snackbarHostState = remember { SnackbarHostState() }
+    val taskDeleted = navController.currentBackStackEntry
+        ?.savedStateHandle
+        ?.getStateFlow<String?>("task_deleted", null)
+        ?.collectAsState()
+    LaunchedEffect(taskDeleted?.value) {
+        taskDeleted?.value?.let {
+            snackbarHostState.showSnackbar(it)
+            navController.currentBackStackEntry
+                ?.savedStateHandle
+                ?.set("task_deleted", null)
+        }
+    }
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         modifier = Modifier.fillMaxSize(),
         containerColor = LoginBlack, // Scaffold'un ana arka plan rengi
         topBar = {
@@ -107,7 +127,7 @@ fun HomeScreen(viewModel: HomeViewModel, navController: NavController) {
     }
 }
 @Composable
-fun MyTaskCard(viewModel: HomeViewModel,task: TaskModel, navController: NavController) {
+fun MyTaskCard(viewModel: HomeViewModel, task: Task, navController: NavController) {
     Card(onClick = {
         navController.navigate("details_screen/${task.Id}")
     },
@@ -182,7 +202,7 @@ fun MyTaskCard(viewModel: HomeViewModel,task: TaskModel, navController: NavContr
                     Box(
                         modifier = Modifier
                             .background(
-                                color = task.PriorityColor(),
+                                color = PriorityColor(task.Priority),
                                 shape = RoundedCornerShape(12.dp)
                             )
                             .padding(horizontal = 10.dp, vertical = 2.dp),
@@ -200,7 +220,14 @@ fun MyTaskCard(viewModel: HomeViewModel,task: TaskModel, navController: NavContr
         }
     }
 }
-
+fun PriorityColor(priority : String): Color { //kendime not şuanlık priority renkleri statik olarak verdim daha sonra dinamik yapmak lazım mvvm power 😁
+    return when (priority) {
+        "High" -> Color(0xFFFF0000) // Kırmızı
+        "Medium" -> Color(0xFFFFA500) // Turuncu
+        "Low" -> Color(0xFF008000) // Yeşil
+        else -> Color(0xFF000000) // Varsayılan siyah
+    }
+}
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {

@@ -46,10 +46,14 @@ import com.enesduvan.taskflow.ui.theme.LoginDarkPurple
 import com.enesduvan.taskflow.ui.theme.LoginPurple
 import com.enesduvan.taskflow.ui.theme.LoginWhite
 import com.enesduvan.taskflow.viewmodel.HomeViewModel
-import com.enesduvan.taskflow.model.TaskModel
+import com.enesduvan.taskflow.roomDB.data.Task
+import com.enesduvan.taskflow.roomDB.viewmodel.TaskViewModel
 
 @Composable
-fun DetailsScreen(task: TaskModel,viewModel: HomeViewModel, navController: NavController) {
+fun DetailsScreen(task: Task,
+                  viewModel: HomeViewModel,
+                  taskViewModel: TaskViewModel,
+                  navController: NavController) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
@@ -122,7 +126,12 @@ fun DetailsScreen(task: TaskModel,viewModel: HomeViewModel, navController: NavCo
                             tint = LoginWhite
                         )
                     }
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = {
+                        //sil icon
+                        taskViewModel.deleteTask(task)
+                        navController.previousBackStackEntry?.savedStateHandle?.set("task_deleted", "Task Deleted") //silinen görev snack bar için
+                        navController.popBackStack() //görevi sil geri dön
+                    }) {
                         Icon(
                             imageVector = Icons.Outlined.Delete,
                             contentDescription = "Delete",
@@ -139,7 +148,7 @@ fun DetailsScreen(task: TaskModel,viewModel: HomeViewModel, navController: NavCo
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(12.dp))
-                        .background(task.PriorityColor())//bu rengi modelden aldım
+                        .background(PriorityColor(task.Priority))//bu rengi modelden aldım
                         .padding(horizontal = 12.dp, vertical = 6.dp)
                 ) {
                     Text(
@@ -290,17 +299,13 @@ fun ChecklistItem(text: String, isChecked: Boolean) {
     }
 }
 */
+
 @Preview
 @Composable
 fun DetailsScreenPreview() {
     DetailsScreen(
-        task = TaskModel(
-            "1",
-            "Flipping Master UI Design",
-            "Pazar yeri ekranı için Jetpack Compose bileşenlerini tasarla.",
-            "22.07.2026",
-            "Yüksek",
-            false
-        ),
-        viewModel = viewModel(), navController = rememberNavController())
+        task = Task(0,"örnek görev","örnek açıklama","2024-06-01","High",false),
+        viewModel = viewModel(),
+        viewModel()
+        ,navController = rememberNavController())
 }
